@@ -1,0 +1,91 @@
+<div className="budget-month-container">
+          <div className="budget-income-month-container">
+            <h3>Einkommen</h3>
+            <div className="budget-income-month-categories">
+              {incomeCategories.map((inccat) => (
+                <>
+                  {incomes.map(
+                    (inc) =>
+                      inccat.id === inc.category && (
+                        <div
+                          key={incomeCategories.id}
+                          className="budget-income-month-category"
+                        >
+                          {/* {dataOfYearAndMonth.includes(inccat.id) && inccat.name} */}
+                          {inccat.name}
+
+                          <div
+                            key={`${inc.id}-${inc.year}`}
+                            className="budget-income-month-category-single"
+                          >
+                            <div className="budget-income-month-category-single-title">
+                              {inc.title}
+                            </div>
+                            <div className="budget-income-month-category-single-amount">
+                              € {inc.amount.toFixed(2)}
+                            </div>
+                          </div>
+                        </div>
+                      )
+                  )}
+                  {/* </div> */}
+                </>
+              ))}
+            </div>
+            <hr />
+            <div className="budget-income-month-total">
+              <div className="budget-income-month-total-title">
+                Summe aller Einnahmen
+              </div>
+              <div
+                className="
+              budget-income-month-total-amount"
+              >
+                € {incomeTotal.toFixed(2)}
+              </div>
+            </div>
+          </div>
+          <div className="budget-expense-month-container">
+            <h3>Ausgaben</h3>
+            <div className="budget-expense-month-categories">
+              {expenseCategories.map((expcat) => (
+                <>
+                  {expenses.map(
+                    (exp) =>
+                      expcat.id === exp.category && (
+                        <div
+                          key={expenseCategories.id}
+                          className="budget-expense-month-category"
+                        >
+                          {expcat.name}
+                          <div
+                            key={`${exp.id}-${exp.year}`}
+                            className="budget-expense-month-category-single"
+                          >
+                            <div className="budget-expense-month-category-single-title">
+                              {exp.title}
+                            </div>
+                            <div className="budget-expense-month-category-single-amount">
+                              € {exp.amount.toFixed(2)}
+                            </div>
+                          </div>
+                        </div>
+                      )
+                  )}
+                </>
+              ))}
+            </div>
+            <hr />
+            <div className="budget-expense-month-total">
+              <div className="budget-expense-month-total-title">
+                Summe aller Ausgaben
+              </div>
+              <div
+                className="
+              budget-expense-month-total-amount"
+              >
+                € {expenseTotal.toFixed(2)}
+              </div>
+            </div>
+          </div>
+        </div>

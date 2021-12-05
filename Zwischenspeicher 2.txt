@@ -1,0 +1,207 @@
+import Incomes from "./Incomes";
+import Expenses from "./Expenses";
+import categories from "../categories";
+
+const BudgetMonthDisplay = ({ selectedYear, data, monthInformation }) => {
+  // const dataOfYearAndMonth = data.map((item) => {
+  //   if (
+  //     item.date.getFullYear() === parseInt(selectedYear) &&
+  //     item.date.getMonth() === monthInformation.monthId
+  //   ) {
+  //     const obj = {
+  //       id: item.id,
+  //       type: item.type,
+  //       category: item.category,
+  //       title: item.title,
+  //       amount: parseFloat(item.amount),
+  //       day: item.date.getDay(),
+  //       month: item.date.getMonth(),
+  //       year: item.date.getFullYear(),
+  //     };
+  //     return obj;
+  //   } else {
+  //     // ich glaube, hier ist der fehler!
+  //     return null;
+  //   }
+  // });
+
+  const dataOfYearAndMonth = [];
+  for (const item of data) {
+    if (
+      item.date.getFullYear() === parseInt(selectedYear) &&
+      item.date.getMonth() === monthInformation.monthId
+    ) {
+      const obj = {
+        id: item.id,
+        type: item.type,
+        category: item.category,
+        title: item.title,
+        amount: parseFloat(item.amount),
+        day: item.date.getDay(),
+        month: item.date.getMonth(),
+        year: item.date.getFullYear(),
+      };
+      dataOfYearAndMonth.push(obj);
+    }
+  }
+
+  let incomes;
+  let expenses;
+  if (dataOfYearAndMonth.includes(null)) {
+    incomes = dataOfYearAndMonth.filter(
+      (inc) => inc.type === "income" && inc.year === parseInt(selectedYear)
+    );
+    expenses = dataOfYearAndMonth.filter(
+      (exp) => exp.type === "expense" && exp.year === parseInt(selectedYear)
+    );
+  } else {
+    incomes = null;
+    expenses = null;
+  }
+
+  const incomeCategories = categories.filter((inc) => inc.type === "income");
+  const expenseCategories = categories.filter((exp) => exp.type === "expense");
+
+  let incomeTotal;
+  let expenseTotal;
+  if (!dataOfYearAndMonth.includes(null)) {
+    incomeTotal = incomes.reduce((acc, rec) => {
+      const total = acc + rec.amount;
+      return total;
+    }, 0);
+    expenseTotal = expenses.reduce((acc, rec) => {
+      const total = acc + rec.amount;
+      return total;
+    }, 0);
+  } else {
+    incomeTotal = 0;
+    expenseTotal = 0;
+  }
+
+  const overallTotal = incomeTotal - expenseTotal;
+
+  // Hier gibt es noch einen großen Fehler: Wenn ich eine Einnahme für einen neuen Monat einfüge, habe ich
+  // a) einen Eintrag: daher darf ich nicht pauschal sagen, dass null = nicht anzeigen bedeutet
+  // b) ich habe immer ein Array aus 6 objects???
+
+  if (dataOfYearAndMonth.includes(null)) {
+    return <div>Für diesen Monat wurden keine Daten eingetragen.</div>;
+  } else {
+    return (
+      <div className="budget-month-canvas">
+        <h2>
+          Einnahmen/Ausgaben für {monthInformation.fullLabel} {selectedYear}
+        </h2>
+        <div className="budget-month-container">
+          <div className="budget-income-month-container">
+            <h3>Einkommen</h3>
+            <div className="budget-income-month-categories">
+              {incomeCategories.map((inccat) => (
+                <>
+                  <div
+                    key={incomeCategories.id}
+                    className="budget-income-month-category"
+                  >
+                    {inccat.name}
+                    {incomes.map(
+                      (inc) =>
+                        inccat.id === inc.category && (
+                          <div
+                            key={`${inc.id}-${inc.year}`}
+                            className="budget-income-month-category-single"
+                          >
+                            <div className="budget-income-month-category-single-title">
+                              {inc.title}
+                            </div>
+                            <div className="budget-income-month-category-single-amount">
+                              € {inc.amount.toFixed(2)}
+                            </div>
+                          </div>
+                        )
+                    )}
+                  </div>
+                </>
+              ))}
+            </div>
+            <hr />
+            <div className="budget-income-month-total">
+              <div className="budget-income-month-total-title">
+                Summe aller Einnahmen
+              </div>
+              <div
+                className="
+              budget-income-month-total-amount"
+              >
+                € {incomeTotal.toFixed(2)}
+              </div>
+            </div>
+          </div>
+          <div className="budget-expense-month-container">
+            <h3>Ausgaben</h3>
+            <div className="budget-expense-month-categories">
+              {expenseCategories.map((expcat) => (
+                <div
+                  key={expenseCategories.id}
+                  className="budget-expense-month-category"
+                >
+                  {expcat.name}
+                  {expenses.map(
+                    (exp) =>
+                      expcat.id === exp.category && (
+                        <div
+                          key={`${exp.id}-${exp.year}`}
+                          className="budget-expense-month-category-single"
+                        >
+                          <div className="budget-expense-month-category-single-title">
+                            {exp.title}
+                          </div>
+                          <div className="budget-expense-month-category-single-amount">
+                            € {exp.amount.toFixed(2)}
+                          </div>
+                        </div>
+                      )
+                  )}
+                </div>
+              ))}
+            </div>
+            <hr />
+            <div className="budget-expense-month-total">
+              <div className="budget-expense-month-total-title">
+                Summe aller Ausgaben
+              </div>
+              <div
+                className="
+              budget-expense-month-total-amount"
+              >
+                € {expenseTotal.toFixed(2)}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="budget-month-total">
+          {overallTotal >= 0 ? (
+            <div className="budget-month-total-income">
+              <span>
+                Gesamtgewinn für {monthInformation.fullLabel} {selectedYear}:
+              </span>
+              <span className="budget-month-positive-total">
+                € {overallTotal.toFixed(2)}
+              </span>
+            </div>
+          ) : (
+            <div className="budget-month-total-income">
+              <span>
+                Gesamtgewinn für {monthInformation.fullLabel} {selectedYear}:
+              </span>
+              <span className="budget-month-negative-total">
+                € -{overallTotal.toFixed(2)}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+};
+
+export default BudgetMonthDisplay;

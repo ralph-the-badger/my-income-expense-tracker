@@ -1,23 +1,887 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+// import data from "./data";
+import categories from "./categories";
+
+import IncomeExpenseForm from "./IncomeExpenseForm";
+import BudgetOverviewDisplay from "./Overview/BudgetOverviewDisplay";
+import BudgetMonthDisplay from "./Overview/BudgetMonthDisplay";
+
+import "./App.css";
+
+const myData = [
+  {
+    id: 1,
+    type: "income",
+    category: 1,
+    title: "Gehalt Januar",
+    amount: 2500,
+    date: new Date(2021, 0, 28),
+  },
+  {
+    id: 2,
+    type: "income",
+    category: 1,
+    title: "Gehalt Februar",
+    amount: 2500,
+    date: new Date(2021, 1, 25),
+  },
+
+  {
+    id: 3,
+    type: "income",
+    category: 1,
+    title: "Gehalt März",
+    amount: 2500,
+    date: new Date(2021, 2, 30),
+  },
+  {
+    id: 4,
+    type: "income",
+    category: 1,
+    title: "Gehalt April",
+    amount: 2500,
+    date: new Date(2021, 3, 29),
+  },
+  {
+    id: 5,
+    type: "income",
+    category: 1,
+    title: "Gehalt Mai",
+    amount: 2500,
+    date: new Date(2021, 4, 27),
+  },
+  {
+    id: 6,
+    type: "income",
+    category: 1,
+    title: "Gehalt Juni",
+    amount: 2500,
+    date: new Date(2021, 5, 29),
+  },
+  {
+    id: 7,
+    type: "income",
+    category: 1,
+    title: "Gehalt Juli",
+    amount: 2500,
+    date: new Date(2021, 6, 29),
+  },
+  {
+    id: 8,
+    type: "income",
+    category: 1,
+    title: "Gehalt August",
+    amount: 2500,
+    date: new Date(2021, 7, 26),
+  },
+  {
+    id: 9,
+    type: "income",
+    category: 1,
+    title: "Gehalt September",
+    amount: 2500,
+    date: new Date(2021, 8, 29),
+  },
+  {
+    id: 10,
+    type: "income",
+    category: 1,
+    title: "Gehalt Oktober",
+    amount: 2500,
+    date: new Date(2021, 9, 28),
+  },
+  {
+    id: 11,
+    type: "income",
+    category: 1,
+    title: "Gehalt November",
+    amount: 2500,
+    date: new Date(2021, 10, 29),
+  },
+  {
+    id: 12,
+    type: "expense",
+    category: 11,
+    title: "Miete Januar",
+    amount: 800,
+    date: new Date(2021, 0, 5),
+  },
+  {
+    id: 13,
+    type: "expense",
+    category: 11,
+    title: "Miete Februar",
+    amount: 800,
+    date: new Date(2021, 1, 5),
+  },
+  {
+    id: 14,
+    type: "expense",
+    category: 11,
+    title: "Miete März",
+    amount: 800,
+    date: new Date(2021, 2, 5),
+  },
+  {
+    id: 15,
+    type: "expense",
+    category: 11,
+    title: "Miete April",
+    amount: 800,
+    date: new Date(2021, 3, 5),
+  },
+  {
+    id: 16,
+    type: "expense",
+    category: 11,
+    title: "Miete Mai",
+    amount: 800,
+    date: new Date(2021, 4, 5),
+  },
+
+  {
+    id: 17,
+    type: "expense",
+    category: 11,
+    title: "Miete Juni",
+    amount: 800,
+    date: new Date(2021, 5, 5),
+  },
+  {
+    id: 18,
+    type: "expense",
+    category: 11,
+    title: "Miete Juli",
+    amount: 800,
+    date: new Date(2021, 6, 5),
+  },
+  {
+    id: 19,
+    type: "expense",
+    category: 11,
+    title: "Miete August",
+    amount: 800,
+    date: new Date(2021, 7, 5),
+  },
+  {
+    id: 20,
+    type: "expense",
+    category: 11,
+    title: "Miete September",
+    amount: 800,
+    date: new Date(2021, 8, 5),
+  },
+  {
+    id: 21,
+    type: "expense",
+    category: 11,
+    title: "Miete Oktober",
+    amount: 800,
+    date: new Date(2021, 9, 5),
+  },
+  {
+    id: 22,
+    type: "expense",
+    category: 11,
+    title: "Miete November",
+    amount: 800,
+    date: new Date(2021, 10, 5),
+  },
+  {
+    id: 23,
+    type: "expense",
+    category: 11,
+    title: "Miete Dezember",
+    amount: 800,
+    date: new Date(2021, 11, 5),
+  },
+  {
+    id: 24,
+    type: "expense",
+    category: 12,
+    title: "SWM Januar",
+    amount: 89,
+    date: new Date(2021, 0, 5),
+  },
+  {
+    id: 25,
+    type: "expense",
+    category: 12,
+    title: "SWM Februar",
+    amount: 89,
+    date: new Date(2021, 1, 10),
+  },
+
+  {
+    id: 26,
+    type: "expense",
+    category: 12,
+    title: "SWM März",
+    amount: 89,
+    date: new Date(2021, 2, 5),
+  },
+  {
+    id: 27,
+    type: "expense",
+    category: 12,
+    title: "SWM April",
+    amount: 89,
+    date: new Date(2021, 3, 5),
+  },
+  {
+    id: 28,
+    type: "expense",
+    category: 12,
+    title: "SWM Mai",
+    amount: 89,
+    date: new Date(2021, 4, 5),
+  },
+  {
+    id: 29,
+    type: "expense",
+    category: 12,
+    title: "SWM Juni",
+    amount: 89,
+    date: new Date(2021, 5, 5),
+  },
+  {
+    id: 30,
+    type: "expense",
+    category: 12,
+    title: "SWM Juli",
+    amount: 89,
+    date: new Date(2021, 6, 5),
+  },
+  {
+    id: 31,
+    type: "expense",
+    category: 12,
+    title: "SWM August",
+    amount: 89,
+    date: new Date(2021, 7, 5),
+  },
+  {
+    id: 32,
+    type: "expense",
+    category: 12,
+    title: "SWM September",
+    amount: 89,
+    date: new Date(2021, 8, 5),
+  },
+  {
+    id: 33,
+    type: "expense",
+    category: 12,
+    title: "SWM Oktober",
+    amount: 103.0,
+    date: new Date(2021, 9, 5),
+  },
+  {
+    id: 34,
+    type: "expense",
+    category: 12,
+    title: "SWM November",
+    amount: 103.0,
+    date: new Date(2021, 10, 5),
+  },
+  {
+    id: 35,
+    type: "expense",
+    category: 12,
+    title: "SWM Dezember",
+    amount: 103.0,
+    date: new Date(2021, 11, 5),
+  },
+
+  {
+    id: 36,
+    type: "expense",
+    category: 13,
+    title: "O2 Januar",
+    amount: 39.99,
+    date: new Date(2021, 0, 25),
+  },
+  {
+    id: 37,
+    type: "expense",
+    category: 13,
+    title: "O2 Februar",
+    amount: 39.99,
+    date: new Date(2021, 1, 25),
+  },
+
+  {
+    id: 38,
+    type: "expense",
+    category: 13,
+    title: "O2 März",
+    amount: 39.99,
+    date: new Date(2021, 2, 25),
+  },
+  {
+    id: 39,
+    type: "expense",
+    category: 13,
+    title: "O2 April",
+    amount: 39.99,
+    date: new Date(2021, 3, 25),
+  },
+  {
+    id: 40,
+    type: "expense",
+    category: 13,
+    title: "O2 Mai",
+    amount: 39.99,
+    date: new Date(2021, 4, 25),
+  },
+  {
+    id: 41,
+    type: "expense",
+    category: 13,
+    title: "O2 Juni",
+    amount: 39.99,
+    date: new Date(2021, 5, 25),
+  },
+  {
+    id: 42,
+    type: "expense",
+    category: 13,
+    title: "O2 Juli",
+    amount: 39.99,
+    date: new Date(2021, 6, 25),
+  },
+  {
+    id: 43,
+    type: "expense",
+    category: 13,
+    title: "O2 August",
+    amount: 39.99,
+    date: new Date(2021, 7, 25),
+  },
+  {
+    id: 44,
+    type: "expense",
+    category: 13,
+    title: "O2 September",
+    amount: 39.99,
+    date: new Date(2021, 8, 25),
+  },
+  {
+    id: 45,
+    type: "expense",
+    category: 13,
+    title: "O2 Oktober",
+    amount: 39.99,
+    date: new Date(2021, 9, 25),
+  },
+  {
+    id: 46,
+    type: "expense",
+    category: 13,
+    title: "O2 November",
+    amount: 39.99,
+    date: new Date(2021, 10, 25),
+  },
+  {
+    id: 47,
+    type: "expense",
+    category: 13,
+    title: "O2 Dezember",
+    amount: 39.99,
+    date: new Date(2021, 11, 25),
+  },
+  {
+    id: 48,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 44.36,
+    date: new Date(2021, 0, 28),
+  },
+  {
+    id: 49,
+    type: "expense",
+    category: 15,
+    title: "Edeka + Bargeld",
+    amount: 234.36,
+    date: new Date(2021, 1, 2),
+  },
+  {
+    id: 50,
+    type: "expense",
+    category: 14,
+    title: "Rundfunkbeitrag",
+    amount: 52.5,
+    date: new Date(2021, 1, 15),
+  },
+  {
+    id: 51,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 40.44,
+    date: new Date(2021, 1, 15),
+  },
+  {
+    id: 52,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 20.37,
+    date: new Date(2021, 1, 16),
+  },
+  {
+    id: 53,
+    type: "expense",
+    category: 15,
+    title: "Edeka + Bargeld",
+    amount: 234.69,
+    date: new Date(2021, 2, 9),
+  },
+  {
+    id: 54,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 25.37,
+    date: new Date(2021, 2, 11),
+  },
+  {
+    id: 55,
+    type: "expense",
+    category: 15,
+    title: "HIT",
+    amount: 46.32,
+    date: new Date(2021, 2, 23),
+  },
+  {
+    id: 56,
+    type: "expense",
+    category: 14,
+    title: "Reparaturkosten Heizung (1. Rate)",
+    amount: 765.22,
+    date: new Date(2021, 2, 24),
+  },
+  {
+    id: 57,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 32.88,
+    date: new Date(2021, 3, 1),
+  },
+  {
+    id: 58,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 38.88,
+    date: new Date(2021, 3, 6),
+  },
+  {
+    id: 59,
+    type: "expense",
+    category: 14,
+    title: "Reparaturkosten Heizung (2. Rate)",
+    amount: 614.51,
+    date: new Date(2021, 3, 12),
+  },
+  {
+    id: 60,
+    type: "expense",
+    category: 15,
+    title: "Edeka + Bargeld",
+    amount: 132.32,
+    date: new Date(2021, 3, 12),
+  },
+  {
+    id: 61,
+    type: "expense",
+    category: 18,
+    title: "Zahnarzt",
+    amount: 11.14,
+    date: new Date(2021, 3, 19),
+  },
+  {
+    id: 62,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 52.03,
+    date: new Date(2021, 3, 26),
+  },
+  {
+    id: 63,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 42.5,
+    date: new Date(2021, 4, 5),
+  },
+  {
+    id: 64,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 22.21,
+    date: new Date(2021, 4, 12),
+  },
+  {
+    id: 65,
+    type: "expense",
+    category: 14,
+    title: "Rundfunkbeitrag",
+    amount: 52.5,
+    date: new Date(2021, 4, 12),
+  },
+  {
+    id: 66,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 25.79,
+    date: new Date(2021, 4, 19),
+  },
+  {
+    id: 67,
+    type: "expense",
+    category: 15,
+    title: "Edeka + Bargeld",
+    amount: 212.21,
+    date: new Date(2021, 5, 7),
+  },
+  {
+    id: 68,
+    type: "expense",
+    category: 15,
+    title: "Lidl",
+    amount: 212.21,
+    date: new Date(2021, 5, 17),
+  },
+  {
+    id: 69,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 25.47,
+    date: new Date(2021, 5, 28),
+  },
+  {
+    id: 70,
+    type: "expense",
+    category: 15,
+    title: "REWE + Bargeld",
+    amount: 120.78,
+    date: new Date(2021, 6, 1),
+  },
+  {
+    id: 71,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 28.16,
+    date: new Date(2021, 6, 8),
+  },
+  {
+    id: 72,
+    type: "expense",
+    category: 15,
+    title: "Lidl",
+    amount: 24.41,
+    date: new Date(2021, 6, 12),
+  },
+  {
+    id: 73,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 15.14,
+    date: new Date(2021, 6, 18),
+  },
+  {
+    id: 74,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 18.62,
+    date: new Date(2021, 6, 27),
+  },
+  {
+    id: 75,
+    type: "expense",
+    category: 19,
+    title: "Steuer-Rückzahlung",
+    amount: 483.24,
+    date: new Date(2021, 7, 9),
+  },
+  {
+    id: 76,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 28.69,
+    date: new Date(2021, 7, 10),
+  },
+  {
+    id: 77,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 31.66,
+    date: new Date(2021, 7, 13),
+  },
+  {
+    id: 78,
+    type: "expense",
+    category: 14,
+    title: "Rundfunkbeitrag",
+    amount: 52.5,
+    date: new Date(2021, 7, 16),
+  },
+  {
+    id: 79,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 24.67,
+    date: new Date(2021, 7, 17),
+  },
+  {
+    id: 80,
+    type: "expense",
+    category: 20,
+    title: "Bücher",
+    amount: 62.0,
+    date: new Date(2021, 7, 21),
+  },
+  {
+    id: 81,
+    type: "expense",
+    category: 15,
+    title: "REWE + Bargeld",
+    amount: 135.68,
+    date: new Date(2021, 7, 26),
+  },
+  {
+    id: 82,
+    type: "expense",
+    category: 15,
+    title: "Aldi",
+    amount: 31.16,
+    date: new Date(2021, 7, 28),
+  },
+  {
+    id: 83,
+    type: "expense",
+    category: 15,
+    title: "Rewe",
+    amount: 17.16,
+    date: new Date(2021, 8, 2),
+  },
+  {
+    id: 84,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 26.34,
+    date: new Date(2021, 8, 6),
+  },
+  {
+    id: 85,
+    type: "expense",
+    category: 15,
+    title: "HIT",
+    amount: 32.81,
+    date: new Date(2021, 8, 14),
+  },
+  {
+    id: 86,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 27.39,
+    date: new Date(2021, 8, 19),
+  },
+  {
+    id: 87,
+    type: "expense",
+    category: 15,
+    title: "Edeka + Bargeld",
+    amount: 113.24,
+    date: new Date(2021, 8, 25),
+  },
+  {
+    id: 88,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 33.14,
+    date: new Date(2021, 9, 6),
+  },
+  {
+    id: 89,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 28.27,
+    date: new Date(2021, 9, 13),
+  },
+  {
+    id: 90,
+    type: "expense",
+    category: 15,
+    title: "Lidl",
+    amount: 26.47,
+    date: new Date(2021, 9, 18),
+  },
+  {
+    id: 91,
+    type: "expense",
+    category: 20,
+    title: "Amazon",
+    amount: 84.24,
+    date: new Date(2021, 9, 19),
+  },
+  {
+    id: 92,
+    type: "expense",
+    category: 15,
+    title: "Edeka + Bargeld",
+    amount: 216.23,
+    date: new Date(2021, 9, 23),
+  },
+  {
+    id: 93,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 21.63,
+    date: new Date(2021, 9, 27),
+  },
+  {
+    id: 94,
+    type: "expense",
+    category: 20,
+    title: "Decathlon",
+    amount: 39.99,
+    date: new Date(2021, 9, 30),
+  },
+  {
+    id: 95,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 28.22,
+    date: new Date(2021, 10, 2),
+  },
+  {
+    id: 96,
+    type: "expense",
+    category: 15,
+    title: "Edeka",
+    amount: 17.32,
+    date: new Date(2021, 10, 7),
+  },
+  {
+    id: 97,
+    type: "expense",
+    category: 20,
+    title: "Bücher",
+    amount: 49.0,
+    date: new Date(2021, 10, 12),
+  },
+  {
+    id: 98,
+    type: "expense",
+    category: 15,
+    title: "Aldi",
+    amount: 25.32,
+    date: new Date(2021, 10, 13),
+  },
+  {
+    id: 99,
+    type: "expense",
+    category: 14,
+    title: "Rundfunkbeitrag",
+    amount: 52.5,
+    date: new Date(2021, 10, 16),
+  },
+  {
+    id: 100,
+    type: "expense",
+    category: 15,
+    title: "REWE",
+    amount: 19.25,
+    date: new Date(2021, 10, 17),
+  },
+  {
+    id: 101,
+    type: "expense",
+    category: 15,
+    title: "Edeka + Bargeld",
+    amount: 121.32,
+    date: new Date(2021, 10, 23),
+  },
+  {
+    id: 102,
+    type: "expense",
+    category: 15,
+    title: "Edeka + Bargeld",
+    amount: 121.32,
+    date: new Date(2021, 10, 23),
+  },
+  {
+    id: 103,
+    type: "expense",
+    category: 15,
+    title: "Aldi",
+    amount: 41.26,
+    date: new Date(2021, 10, 29),
+  },
+];
 
 function App() {
+  const [newIncomeExpense, setNewIncomeExpense] = useState(myData);
+  const [monthInformation, setMonthInformation] = useState(false);
+  const [selectedYear, setSelectedYear] = useState(false);
+
+  const saveExpenseDataHandler = (newIncomeExpenseData) => {
+    setNewIncomeExpense((existingData) => {
+      return [newIncomeExpenseData, ...existingData];
+    });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="app-canvas">
+        <h1>Einnahmen - Ausgaben</h1>
+        <IncomeExpenseForm
+          data={newIncomeExpense}
+          categories={categories}
+          onSaveIncomeExpense={saveExpenseDataHandler}
+        />
+        <BudgetOverviewDisplay
+          data={newIncomeExpense}
+          setMonthInformation={setMonthInformation}
+          setSelectedYear={setSelectedYear}
+        />
+        {monthInformation ? (
+          <BudgetMonthDisplay
+            className={"budget-month-canvas"}
+            selectedYear={selectedYear}
+            monthInformation={monthInformation}
+            data={newIncomeExpense}
+          />
+        ) : (
+          <p>
+            Bitte klicken Sie auf einen Button unterhalb des Monatsbalkens um
+            sich die Details anzeigen zu lassen.
+          </p>
+        )}
+        {/* <BudgetMonthDisplay
+          className={`budget-month-canvas ${!showDistinctMonth && "invalid"}`}
+        /> */}
+      </div>
     </div>
   );
 }
