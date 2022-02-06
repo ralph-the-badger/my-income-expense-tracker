@@ -105,7 +105,7 @@ const IncomeExpenseForm = ({ data, categories, onSaveIncomeExpense }) => {
         <div className="incexp-dropdown-categories">
           <div className="incexp__inner incexp-dropdown-categories__inner">
             <span className="incexp-label">
-              Bitte wählen Sie eine Kategorie der Einnahme/Ausgabe:
+              Kategorie der Einnahme/Ausgabe:
             </span>
             <select
               id="category-select"
@@ -122,9 +122,7 @@ const IncomeExpenseForm = ({ data, categories, onSaveIncomeExpense }) => {
         </div>
         <div className="incexp-input-type">
           <div className="incexp__inner incexp-input-type__inner">
-            <span className="incexp-label">
-              Bitte benennen der Einnahme/Ausgabe
-            </span>
+            <span className="incexp-label">Art der Einnahme/Ausgabe</span>
             <input
               id="type-input"
               type="text"
@@ -164,7 +162,6 @@ const IncomeExpenseForm = ({ data, categories, onSaveIncomeExpense }) => {
           <button className="button" id="submit" type="submit">
             Einnahme/Ausgabe hinzufügen
           </button>
-          {/* onClick={onCancel} */}
           <button
             className="button"
             id="cancel"

@@ -37,7 +37,7 @@ const categories = [
   {
     id: 13,
     type: "expense",
-    name: "Telefon + Internet",
+    name: "Internet + Handy",
   },
   {
     id: 14,

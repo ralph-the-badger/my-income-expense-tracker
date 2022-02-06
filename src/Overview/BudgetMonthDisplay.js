@@ -39,77 +39,10 @@ const BudgetMonthDisplay = ({ selectedYear, data, monthInformation }) => {
     expenses = null;
   }
 
-  // // all income and expense categories
-  // const incomeCategories = categories.filter((inc) => inc.type === "income");
-  // const expenseCategories = categories.filter((exp) => exp.type === "expense");
-
-  // // only categories of incomes with entries for given month and year
-  // const relevantIncomeCategories = [];
-  // incomeCategories.forEach((cat) => {
-  //   if (incomes !== null) {
-  //     incomes.forEach((inc) => {
-  //       if (
-  //         inc !== null &&
-  //         cat.id === inc.category &&
-  //         !relevantIncomeCategories.includes(cat)
-  //       ) {
-  //         relevantIncomeCategories.push(cat);
-  //       }
-  //     });
-  //   }
-  // });
-
-  // // only categories of expenses with entries for given month and year
-  // const relevantExpenseCategories = [];
-  // expenseCategories.forEach((cat) => {
-  //   if (expenses !== null) {
-  //     expenses.forEach((exp) => {
-  //       if (
-  //         cat.id === exp.category &&
-  //         !relevantExpenseCategories.includes(cat)
-  //       ) {
-  //         relevantExpenseCategories.push(cat);
-  //       }
-  //     });
-  //   }
-  // });
-
-  // // income and expense total of given month and year
-  // let incomeTotal;
-  // let expenseTotal;
-  // if (dataOfYearAndMonth.length > 0) {
-  //   incomeTotal = incomes.reduce((acc, rec) => {
-  //     const total = acc + rec.amount;
-  //     return total;
-  //   }, 0);
-  //   expenseTotal = expenses.reduce((acc, rec) => {
-  //     const total = acc + rec.amount;
-  //     return total;
-  //   }, 0);
-  // } else {
-  //   incomeTotal = 0;
-  //   expenseTotal = 0;
-  // }
-
-  // const getMonthIncomeTotal = (total) => {
-  //   console.log(total);
-  // };
-  // const getMonthExpenseTotal = (total) => {
-  //   console.log(total);
-  // };
-
   const [monthIncomeTotal, setMonthIncomeTotal] = useState(0);
   const [monthExpenseTotal, setMonthExpenseTotal] = useState(0);
 
-  // const bubu = (totalMonthIncome) => {
-  //   console.log(totalMonthIncome, "bubu");
-  //   setMonthIncomeTotal(totalMonthIncome);
-  // };
-
-  // const overallTotal = incomeTotal - expenseTotal;
   const overallTotal = monthIncomeTotal - monthExpenseTotal;
-
-  // TODO: local storage (https://developer.mozilla.org/de/docs/Web/API/Window/localStorage)
 
   if (dataOfYearAndMonth.length === 0) {
     return (

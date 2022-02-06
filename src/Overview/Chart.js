@@ -1,11 +1,6 @@
 import ChartBar from "./ChartBar";
 
 const Chart = ({ monthDisplay, setMonthInformation }) => {
-  // const displaySingleMonth = (distinctMonthData) => {
-  //   // console.log(distinctMonthData);
-  //   addMonthDisplay(distinctMonthData);
-  // };
-
   return monthDisplay.map((month) => (
     <ChartBar
       id={month.monthId}
